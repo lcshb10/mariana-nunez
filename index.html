@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Mariana Nunez ✨</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Arial', sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Efeito de partículas cósmicas */
+    .particle {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    /* Efeito de nebulosa */
+    .nebula {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(138,43,226,0.3) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(30px);
+      opacity: 0.5;
+    }
+    
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+      text-shadow: 0 0 10px #fff, 0 0 20px #9d00ff;
+      z-index: 10;
+      animation: glow 2s infinite alternate;
+    }
+    
+    p.poema {
+      font-style: italic;
+      max-width: 400px;
+      white-space: pre-line;
+      margin-bottom: 1.5em;
+      line-height: 1.6;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .stars {
+      display: grid;
+      grid-template-columns: repeat(5, 60px);
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 2em;
+      z-index: 10;
+    }
+    
+    .star {
+      font-size: 2.5em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 5px white;
+    }
+    
+    .star:hover {
+      transform: scale(1.3) rotate(10deg);
+      text-shadow: 0 0 15px gold;
+    }
+    
+    .clicked {
+      color: gold;
+      animation: starPulse 1s infinite;
+      text-shadow: 0 0 10px gold;
+    }
+    
+    .message {
+      font-size: 1.3em;
+      margin-top: 1em;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.5s ease;
+      z-index: 10;
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    
+    .message.show {
+      opacity: 1;
+      transform: scale(1);
+      animation: messageGlow 2s infinite alternate;
+    }
+    
+    /* Efeito de constelação */
+    .constellation {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    /* Surpresa especial */
+    .surprise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+    
+    .surprise.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .surprise img {
+      max-width: 80%;
+      max-height: 60vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px purple;
+      margin-bottom: 20px;
+    }
+    
+    .close-surprise {
+      background: purple;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+    
+    .close-surprise:hover {
+      background: #9d00ff;
+      transform: scale(1.1);
+    }
+    
+    /* Animações */
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #9d00ff;
+      }
+      to {
+        text-shadow: 0 0 15px #fff, 0 0 30px #9d00ff, 0 0 40px #ff00de;
+      }
+    }
+    
+    @keyframes starPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes messageGlow {
+      from {
+        box-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
+      }
+      to {
+        box-shadow: 0 0 30px rgba(157, 0, 255, 0.8);
+      }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* Controles de música */
+    .music-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .music-controls:hover {
+      background: rgba(70,0,110,0.7);
+      transform: scale(1.1);
+    }
+    
+    /* Responsivo */
+    @media (max-width: 600px) {
+      .stars {
+        grid-template-columns: repeat(3, 50px);
+        gap: 15px;
+      }
+      
+      h1 {
+        font-size: 1.8em;
+      }
+      
+      p.poema {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="constellation" id="constellation"></div>
+  
+  <h1>Para Mariana Nunez ✨</h1>
+  <p class="poema">
+Entre estrelas e constelações,
+Encontrei você, meu universo.
+Cada brilho que há em mim
+Reflete a luz do seu sorriso.
+Em meio ao silêncio do céu,
+Sua presença é a minha música,
+Sua voz, meu verso favorito,
+E seus olhos, a razão do meu poema.
+  </p>
+
+  <div class="stars">
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+  </div>
+
+  <div class="message" id="message">
+    🌌 Você descobriu a surpresa cósmica! 🌌<br /><br />
+    <strong>Mariana, cada detalhe seu ilumina meu universo 💛</strong><br /><br />
+    <button id="show-surprise" style="background: purple; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Revelar Surpresa</button>
+  </div>
+  
+  <!-- Surpresa especial -->
+  <div class="surprise" id="surprise">
+    <h2 style="animation: float 3s infinite;">✨ Para Você, Mariana ✨</h2>
+    <img src="https://i.imgur.com/J5Z2ZzC.jpg" alt="Surpresa cósmica" id="surprise-image">
+    <p style="max-width: 80%; text-align: center; font-size: 1.2em;">Se eu pudesse dar algo a você, seria um telescópio para que você visse o quanto é especial. Mas como não posso, fiz este pequeno universo para demonstrar.</p>
+    <button class="close-surprise">Fechar</button>
+  </div>
+  
+  <!-- Controles de música -->
+  <div class="music-controls" id="music-controls">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+    </svg>
+  </div>
+
+  <audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+  </audio>
+
+  <script>
+    // Elementos principais
+    const stars = document.querySelectorAll('.star');
+    const clickedStars = new Set();
+    const message = document.getElementById('message');
+    const surprise = document.getElementById('surprise');
+    const showSurpriseBtn = document.getElementById('show-surprise');
+    const closeSurpriseBtn = document.querySelector('.close-surprise');
+    const musicControls = document.getElementById('music-controls');
+    const audio = document.getElementById('bg-music');
+    
+    // Configuração inicial
+    audio.volume = 0.3;
+    let musicPlaying = false;
+    
+    // Criar partículas cósmicas
+    function createParticles() {
+      const particleCount = 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Tamanho aleatório
+        const size = Math.random() * 3 + 1;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Posição aleatória
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Opacidade aleatória
+        particle.style.opacity = Math.random() * 0.5 + 0.1;
+        
+        // Animação
+        particle.style.animation = `float ${Math.random() * 10 + 5}s infinite ease-in-out`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        
+        document.body.appendChild(particle);
+      }
+    }
+    
+    // Criar nebulosas
+    function createNebulas() {
+      const nebulaCount = 3;
+      
+      for (let i = 0; i < nebulaCount; i++) {
+        const nebula = document.createElement('div');
+        nebula.classList.add('nebula');
+        
+        // Posição aleatória
+        nebula.style.left = `${Math.random() * 80 + 10}%`;
+        nebula.style.top = `${Math.random() * 80 + 10}%`;
+        
+        // Tamanho aleatório
+        const size = Math.random() * 300 + 200;
+        nebula.style.width = `${size}px`;
+        nebula.style.height = `${size}px`;
+        
+        // Cor aleatória
+        const hue = Math.random() * 60 + 270; // Tons de roxo
+        nebula.style.background = `radial-gradient(circle, hsla(${hue}, 100%, 50%, 0.3) 0%, rgba(0,0,0,0) 70%`;
+        
+        document.body.appendChild(nebula);
+      }
+    }
+    
+    // Criar constelação
+    function createConstellation() {
+      const container = document.getElementById('constellation');
+      const starCount = 30;
+      const lineCount = 15;
+      
+      // Criar estrelas
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('particle');
+        star.style.width = `${Math.random() * 2 + 1}px`;
+        star.style.height = star.style.width;
+        
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.opacity = Math.random() * 0.8 + 0.2;
+        
+        star.style.animation = `glow ${Math.random() * 5 + 3}s infinite alternate`;
+        
+        container.appendChild(star);
+      }
+      
+      // Criar linhas entre estrelas
+      const stars = Array.from(container.children);
+      
+      for (let i = 0; i < lineCount; i++) {
+        if (stars.length < 2) break;
+        
+        const star1 = stars[Math.floor(Math.random() * stars.length)];
+        const star2 = stars[Math.floor(Math.random() * stars.length)];
+        
+        if (star1 === star2) continue;
+        
+        const line = document.createElement('div');
+        line.classList.add('particle');
+        line.style.position = 'absolute';
+        line.style.background = 'rgba(255, 255, 255, 0.2)';
+        line.style.height = '1px';
+        
+        const x1 = parseFloat(star1.style.left);
+        const y1 = parseFloat(star1.style.top);
+        const x2 = parseFloat(star2.style.left);
+        const y2 = parseFloat(star2.style.top);
+        
+        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        
+        line.style.width = `${length}%`;
+        line.style.left = star1.style.left;
+        line.style.top = star1.style.top;
+        line.style.transformOrigin = '0 0';
+        line.style.transform = `rotate(${angle}deg)`;
+        line.style.opacity = Math.random() * 0.3 + 0.1;
+        
+        container.appendChild(line);
+      }
+    }
+    
+    // Event listeners
+    stars.forEach((star, index) => {
+      star.addEventListener('click', () => {
+        if (!clickedStars.has(index)) {
+          clickedStars.add(index);
+          star.classList.add('clicked');
+          
+          // Efeito sonoro
+          const clickSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3');
+          clickSound.volume = 0.3;
+          clickSound.play();
+          
+          if (clickedStars.size === stars.length) {
+            message.classList.add('show');
+            
+            // Efeito de confete
+            setTimeout(createConfetti, 500);
+          }
+        }
+      });
+    });
+    
+    showSurpriseBtn.addEventListener('click', () => {
+      surprise.classList.add('active');
+      
+      // Alterar a imagem da surpresa para uma personalizada
+      document.getElementById('surprise-image').src = "https://i.imgur.com/J5Z2ZzC.jpg";
+    });
+    
+    closeSurpriseBtn.addEventListener('click', () => {
+      surprise.classList.remove('active');
+    });
+    
+    musicControls.addEventListener('click', () => {
+      if (musicPlaying) {
+        audio.pause();
+        musicControls.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+          <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        </svg>`;
+      } else {
+        audio.play();
+        musicControls.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>`;
+      }
+      musicPlaying = !musicPlaying;
+    });
+    
+    // Efeito de confete
+    function createConfetti() {
+      const confettiCount = 100;
+      
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('particle');
+        
+        // Forma aleatória
+        const shapes = ['★', '✦', '✧', '❂', '✺'];
+        const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+        confetti.textContent = randomShape;
+        confetti.style.fontSize = `${Math.random() * 20 + 10}px`;
+        
+        // Cor aleatória
+        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff'];
+        confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Posição inicial
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = `-50px`;
+        
+        // Animação
+        const duration = Math.random() * 3 + 2;
+        confetti.style.animation = `fall ${duration}s linear forwards`;
+        confetti.style.animationDelay = `${Math.random() * 2}s`;
+        
+        document.body.appendChild(confetti);
+        
+        // Remover após a animação
+        setTimeout(() => {
+          confetti.remove();
+        }, duration * 1000);
+      }
+      
+      // Adicionar estilo de animação dinamicamente
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fall {
+          to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    // Inicializar efeitos
+    createParticles();
+    createNebulas();
+    createConstellation();
+    
+    // Tentar reproduzir música automaticamente (pode não funcionar em alguns navegadores)
+    document.body.addEventListener('click', () => {
+      if (!musicPlaying) {
+        audio.play().then(() => {
+          musicPlaying = true;
+          musicControls.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>`;
+        }).catch(error => {
+          console.log('Reprodução automática bloqueada:', error);
+        });
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
